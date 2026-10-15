@@ -130,7 +130,7 @@ e ::= x                                 variable: local (depth, slot) or global 
 | `a && b` | `case a { true -> b \| _ -> false }` |
 | `a \|\| b` | `case a { true -> true \| _ -> b }` |
 | `for` loops | `letrec loop = fn(...) ...` (section 6.7) |
-| `katsa` | decision tree of one-level `case`s (Maranget 2008) |
+| `katsa` | decision tree of one-level `case`s (Maranget 2008); `_` in an arm body is the matched value |
 | `nil`, `some(e)`, user constructors | `con` |
 | `_`, `_0`, ... placeholders | `fn` |
 | operators, `.sz`, `e[i]`, `cast<T>` | the `prim` chosen by type (section 5.4) |

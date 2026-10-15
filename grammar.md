@@ -15,6 +15,9 @@ here.
 - **Statement ends:** `;` or a newline. lines ending in an operator, `,`, `(`, `[` or an unclosed `<` continues.
   A newline before `(` or `[` always ends the statement, so `a` + newline + `(b)` doesnt work 
   for a(b)
+  Lexer drops the newline after those (and after `{` `:` `=` `=>` `->` `.` `..` `` ` `` `$`).
+  Except `<`, `>`, `?` -> parser decides, since
+  `p: <x: 1>` and `type a = int?` end a statement but `a >` and `c ?` don't
 - **Numbers** are lexed unsigned-> the parser folds a leading `-` into literal before
   range check. `_` can sit between two digits as visual sep. A float needs digits
   on both sides of `.`, so `0..5` is `0` `..` `5`.
@@ -179,7 +182,7 @@ Functions returning functions chain to the right: `(int) -> (int) -> int` is
                                                  // `by` = stride; default ±1 from direction
 
 <katsa> ::= "katsa" "(" <expr> ")" "{" <arm> ( "," <arm> )* ","? "}"   // pattern match. `kátsaˀ ka·yʌ́` == which one (Oneida)
-<arm> ::= <pattern> "=>" ( <expr> | <block> )
+<arm> ::= <pattern> "=>" ( <expr> | <block> )   // `_` in the body = the value being matched
 <pattern> ::= <id> "(" <pattern> ( "," <pattern> )* ")"   // constructor with fields: rect(w, h), some(v)
             | <id>                               // constant constructor if one is in scope
                                                  // (leaf, red), otherwise binds the value
