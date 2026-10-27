@@ -510,15 +510,31 @@ Heap words are 32 bits, in OCaml's 32-bit layout:
 Blocks have an OCaml-style header. Constructor blocks carry an extra word for the type id.
 Big `int`s and all `kl`s are boxed.
 
-The garbage collector is a Cheney copying collector. A value is live if it is reachable from
-a root. The roots are:
+The garbage collector is generational:
+- **minor:** Cheney copy of the nursery, stop-the-world. Survivors move between two
+  survivor spaces; after two survivals they go to old space.
+- **major:** mark-sweep of old space, concurrent in a separate thread.
+- **full (rare):** copies and compacts every space, stop-the-world.
+
+A new block goes in the nursery, unless it is large: over 5% of the nursery and under 9%
+of a survivor space puts it in the occupied survivor space (promoted at the next minor),
+anything larger goes to old space.
+
+Every pointer write into an existing heap block goes through a snapshot-at-the-beginning
+write barrier, as with OCaml's `caml_modify`: it greys the overwritten value while
+marking, and records old blocks that now point to young ones. Frame-stack slots have no
+barrier; they are roots.
+
+A quote store is freed when no live Term handle names its `store_id` after a major mark.
+
+A value is live if it is reachable from a root. The roots are:
 - globals
 - the machine state: `C`, `F`, `Cl`, every frame on `S`, and the value being returned
 - environment records held by `eval`
 - the host's term stores
 
-**(on hold):** when a collection runs, how the heap grows, generational and parallel
-collection.
+**(on hold):** old-space threshold for starting a major collection, heap growth and
+shrinking, maximum heap size.
 
 ---
 
