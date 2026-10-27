@@ -1,0 +1,23 @@
+lex_errors.t:2:6
+`_` in a number must sit between two digits
+
+lex_errors.t:2:14
+unexpected `px` right after a number
+
+lex_errors.t:3:5
+unknown escape `\q`
+
+lex_errors.t:3:12
+`\u{…}` is above U+10FFFF
+
+lex_errors.t:4:1
+names can't start with `_`
+
+lex_errors.t:4:8
+unexpected character `á` (names are ASCII only)
+
+lex_errors.t:5:7
+unclosed string (strings end on their line)
+
+7 errors
+[exit 1]

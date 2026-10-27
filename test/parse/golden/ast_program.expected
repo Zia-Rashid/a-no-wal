@@ -1,0 +1,9 @@
+type shape = circle(kl) | rect(kl, kl)  #1
+fn area (shape s) -> kl  #7
+  (block (katsa s circle(r) => ((3.14 * r) * r) rect(w, h) => (w * h)))  #13
+(bind shapes (array (call circle 1.0) (call rect 2.0 3.0)))  #31
+(bind total (for s shapes (with kl acc: 0.0) (block (acc + (call area s)))))  #40
+(bind big (call filter sizes (fn_ 1 (_0 > 2.0))))  #54
+(bind sign (?: (n < 0) "neg" (?: (n == 0) "zero" "pos")))  #62
+(bind p (obj x: 1 y: 2 far: (total > 100.0)))  #74
+(bind ok (0 <= i < (get shapes sz)))  #84

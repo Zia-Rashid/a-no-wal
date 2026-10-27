@@ -1,0 +1,14 @@
+syntax_errors.t:2:10
+expected `)`
+
+syntax_errors.t:4:10
+a chain can't mix `<` and `>`; use `&&`
+
+syntax_errors.t:5:14
+expected the end of the statement
+
+syntax_errors.t:6:1
+give every parameter a value, or none
+
+4 errors
+[exit 1]

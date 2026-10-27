@@ -1,0 +1,3 @@
+(tests
+ (names fuzz_lex fuzz_parse)
+ (libraries anwl qcheck-core qcheck-core.runner))
